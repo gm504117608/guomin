@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+    <!-- 模板配置 模板文件路径和model、dao、service对应需要的模板名-->
+    <ftl path="\\src\main\java\\com\\company\\learn\\generate\\ftl">
+        <param name="model">/model.ftl</param>
+        <param name="dao">/dao.ftl</param>
+        <param name="service">/service.ftl</param>
+    </ftl>
+
+    <!-- service.ftl需要的信息
+            path service包路径
+            packageName service中的java文件需要指定包名 -->
+    <service path="\src\main\java\\com\\core\\service">
+        <packageName>com.core.service</packageName>
+    </service>
+
+    <!-- dao.ftl需要的信息
+            path dao包路径
+            packageName dao中的java文件需要指定包名 -->
+    <dao path="\\src\main\java\\com\\core\\dao">
+        <packageName>com.core.dao</packageName>
+    </dao>
+
+    <!-- model.ftl需要的信息
+            path model包路径
+            packageName model中的java文件需要指定包名
+            class 实体类名
+            field 实体类中的字段
+            fieldName 字段名
+            fieldType 字段类型
+            fieldComment 注释 -->
+    <model path="\\src\main\java\\com\\core\\model">
+        <packageName>com.core.model</packageName>
+        <class>RoleMenu</class>
+        <field>
+            <fieldName>id</fieldName>
+            <fieldType>int</fieldType>
+            <fieldComment>id</fieldComment>
+        </field>
+        <field>
+            <fieldName>role_id</fieldName>
+            <fieldType>int</fieldType>
+            <fieldComment>角色id</fieldComment>
+        </field>
+        <field>
+            <fieldName>menu_id</fieldName>
+            <fieldType>int</fieldType>
+            <fieldComment>菜单id</fieldComment>
+        </field>
+    </model>
+</root>

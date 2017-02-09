@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<excelExport>
+    <!-- 离散数据导出配置 -->
+    <onceExport>
+        <!-- 每一个单元的格的描述 -->
+        <cellDesc>
+            <!-- 单元格的位置 -->
+            <cellRef>B7</cellRef>
+            <!-- 单元格中值与数据库对应的字段名称  -->
+            <fieldName>GL</fieldName>
+        </cellDesc>
+        <cellDesc>
+            <cellRef>B8</cellRef>
+            <fieldName>ZZR</fieldName>
+        </cellDesc>
+    </onceExport>
+
+    <!-- 列表数据导出配置 -->
+    <repeatExport>
+        <!-- 每一列单元的格的描述 -->
+        <cellDesc>
+            <cellRef>A</cellRef>
+            <fieldName>BM</fieldName>
+        </cellDesc>
+        <cellDesc>
+            <cellRef>B</cellRef>
+            <fieldName>MC</fieldName>
+        </cellDesc>
+        <cellDesc>
+            <cellRef>C</cellRef>
+            <fieldName>XH</fieldName>
+        </cellDesc>
+        <cellDesc>
+            <cellRef>D</cellRef>
+            <fieldName>JG</fieldName>
+        </cellDesc>
+        <cellDesc>
+            <cellRef>E</cellRef>
+            <fieldName>RQ</fieldName>
+        </cellDesc>
+        <cellDesc>
+            <cellRef>F</cellRef>
+            <fieldName>YH</fieldName>
+        </cellDesc>
+        <!-- 数据导出开始的行 从0开始 -->
+        <start-line>1</start-line>
+    </repeatExport>
+
+    <!-- 每个sheet页最多可以导出多少行数据 默认4000行 -->
+    <export-number>4000</export-number>
+
+</excelExport>

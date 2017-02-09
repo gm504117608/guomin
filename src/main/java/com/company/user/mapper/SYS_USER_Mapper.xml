@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="N_SYS_USER">
+    <select id="getSysUser" resultType="com.company.user.model.SysUser"
+            parameterType="com.company.user.model.SysUser">
+        SELECT 
+            user_id as userId,
+            user_name as userName,
+            user_password as userPassword,
+            phone_num as phoneNum,
+            picture,
+            pic_width as picWidth,
+            pic_height as picHeight,
+            user_sex as userSex,
+            birth_date as birthDate,
+            tp_type as tpType,
+            tp_user_id as tpUserId,
+            user_address as userAddress,
+            create_time as createTime,
+            update_time as updateTime
+        FROM sys_user
+        <where>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId, jdbcType=VARCHAR}
+            </if>
+            <if test="phoneNum != null and phoneNum != ''">
+                and phone_num = #{phoneNum, jdbcType=VARCHAR}
+            </if>
+            <if test="userName != null and userName != ''">
+                AND user_name = #{userName, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addSysUser" parameterType="com.company.user.model.SysUser">
+        INSERT INTO sys_user(
+            user_id,
+            user_name,
+            user_password,
+            phone_num,
+            picture,
+            pic_width,
+            pic_height,
+            user_sex,
+            birth_date,
+            tp_type,
+            tp_user_id,
+            user_address,
+            create_time
+        ) VALUES (
+            #{userId, jdbcType=VARCHAR},
+            #{userName, jdbcType=VARCHAR},
+            #{userPassword, jdbcType=VARCHAR},
+            #{phoneNum, jdbcType=VARCHAR},
+            #{picture, jdbcType=VARCHAR},
+            #{picWidth, jdbcType=INTEGER},
+            #{picHeight, jdbcType=INTEGER},
+            #{userSex, jdbcType=INTEGER},
+            #{birthDate, jdbcType=DATE},
+            #{tpType, jdbcType=INTEGER},
+            #{tpUserId, jdbcType=VARCHAR},
+            #{userAddress, jdbcType=VARCHAR},
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateSysUser" parameterType="com.company.user.model.SysUser">
+        update sys_user
+        <set>
+            <if test="userId != null and userId != ''" >
+                user_id = #{userId, jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null and userName != ''" >
+                user_name = #{userName, jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null and userPassword != ''" >
+                user_password = #{userPassword, jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNum != null and phoneNum != ''" >
+                phone_num = #{phoneNum, jdbcType=VARCHAR},
+            </if>
+            <if test="picture != null and picture != ''" >
+                picture = #{picture, jdbcType=VARCHAR},
+            </if>
+            <if test="picWidth != null and picWidth != ''" >
+                pic_width = #{picWidth, jdbcType=VARCHAR},
+            </if>
+            <if test="picHeight != null and picHeight != ''" >
+                pic_height = #{picHeight, jdbcType=VARCHAR},
+            </if>
+            <if test="userSex != null and userSex != ''" >
+                user_sex = #{userSex, jdbcType=VARCHAR},
+            </if>
+            <if test="userAddress != null and userAddress != ''" >
+                user_address = #{userAddress, jdbcType=VARCHAR},
+            </if>
+            <if test="birthDate != null and birthDate != ''">
+                birth_date = #{birthDate, jdbcType=VARCHAR},
+            </if>
+            <if test="tpType != null and tpType != ''" >
+                tp_type = #{tpType, jdbcType=VARCHAR},
+            </if>
+            <if test="tpUserId != null and tpUserId != ''" >
+                tp_user_id = #{tpUserId, jdbcType=VARCHAR},
+            </if>
+                update_time = sysdate(),
+        </set>
+        <where>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId, jdbcType=VARCHAR}
+            </if>
+            <if test="phoneNum != null and phoneNum != ''" >
+                and phone_num = #{phoneNum, jdbcType=VARCHAR}
+            </if>
+            <if test="userName != null and userName != ''" >
+                and user_name = #{userName, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+
+</mapper>

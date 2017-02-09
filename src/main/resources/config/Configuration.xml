@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!-- 这里交给sqlSessionFactory 的 typeAliasesPackage 属性去得到所有配置信息 -->
+<!--<typeAliases>-->
+<!--<typeAlias alias="user" type="com.company.business.model.User"/>-->
+<!--</typeAliases>-->
+
+<!-- 这里交给sqlSessionFactory 的 mapperLocations属性去得到所有配置信息 -->
+<!--
+<mappers>
+    <mapper resource="com/company/business/mapper/User_Mapper.xml"/>
+</mappers>
+-->
+
+</configuration>

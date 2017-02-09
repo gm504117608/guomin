@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+          http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+          http://www.springframework.org/schema/beans
+	      http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	      http://www.springframework.org/schema/tx
+	      http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+	      http://www.springframework.org/schema/context
+	      http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	      http://www.springframework.org/schema/aop
+	      http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
+       default-autowire="byName">
+
+    <!-- 使用annotation 自动注册bean -->
+    <context:annotation-config/>
+    <context:component-scan base-package="com.company.**.service,com.company.**.dao"/>
+    <mvc:annotation-driven/>
+    <aop:aspectj-autoproxy/>
+
+    <!-- 引入自定义的properties属性文件 -->
+    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:config/sysconfig.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 加入jdbc配置文件 -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="classpath:config/jdbc.properties"
+          p:fileEncoding="utf-8"/>
+
+    <!-- 定义使用 DBCP 实现的数据源 -->
+    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"-->
+    <!--p:driverClassName="${ds.driverClassName}"-->
+    <!--p:url="${ds.jdbcUrl}"-->
+    <!--p:username="${ds.username}"-->
+    <!--p:password="${ds.password}"-->
+    <!--/>-->
+
+    <!-- 定义使用 druid 实现的数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${ds.jdbcUrl}"/>
+        <property name="username" value="${ds.username}"/>
+        <property name="password" value="${ds.password}"/>
+        <property name="filters" value="stat"/>
+        <property name="maxActive" value="20"/>
+        <property name="initialSize" value="1"/>
+        <property name="maxWait" value="60000"/>
+        <property name="minIdle" value="1"/>
+        <property name="timeBetweenEvictionRunsMillis" value="3000"/>
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <property name="validationQuery" value="SELECT 'x'"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+    </bean>
+
+
+    <bean id="mSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- dataSource属性指定要用到的连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- configLocation属性指定mybatis的核心配置文件
+        <property name="configLocation" value="classpath:config/Configuration.xml" /> -->
+        <!--  配置下面两个语句可以省去Configuration.xml文件的编写  -->
+        <!-- 所有配置的mapper文件 -->
+        <property name="mapperLocations" value="classpath*:com/company/**/mapper/*.xml"/>
+        <!-- 所有的实体类 -->
+        <property name="typeAliasesPackage" value="classpath*:com/company/**/model/*"/>
+    </bean>
+
+    <!-- 使用SqlSessionDaoSupport 需要注入sqlSessionFactory -->
+    <bean id="baseDao" class="com.company.common.dao.impl.BaseDaoImpl">
+        <property name="sqlSessionFactory" ref="mSqlSessionFactory"/>
+    </bean>
+
+    <!-- 可以把扫描到的Mapper接口变成Mapper对象
+    注意，没有必要去指定SqlSessionFactory或SqlSessionTemplate，因为MapperScannerConfigurer将会创建MapperFactoryBean，
+    之后自动装配。但是，如果你使用了一个以上的DataSource(因此，也是多个的SqlSessionFactory),
+    那么自动装配可能会失效。这种情况下，你可以使用sqlSessionFactory或sqlSessionTemplate属性来设置正确的工厂/模板。
+    -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.company.**.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="mSqlSessionFactory"/>
+    </bean>
+
+    <!-- =================事物控制================================ -->
+    <!--  事务控制配置 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 声明式容器事务管理 ,transaction-manager指定事务管理器为transactionManager  -->
+    <!-- 1、PROPAGATION_REQUIRED -->
+    <!-- 如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。 -->
+    <!-- 2、PROPAGATION_SUPPORTS -->
+    <!-- 支持当前事务，如果当前没有事务，就以非事务方式执行。 -->
+    <!-- 3、PROPAGATION_MANDATORY -->
+    <!-- 使用当前的事务，如果当前没有事务，就抛出异常。 -->
+    <!-- 4、PROPAGATION_REQUIRES_NEW -->
+    <!-- 新建事务，如果当前存在事务，把当前事务挂起。 -->
+    <!-- 5、PROPAGATION_NOT_SUPPORTED -->
+    <!-- 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。 -->
+    <!-- 6、PROPAGATION_NEVER -->
+    <!-- 以非事务方式执行，如果当前存在事务，则抛出异常。 -->
+    <!-- 7、PROPAGATION_NESTED -->
+    <!-- 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类 似的操作。 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="select*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="count*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="query*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="is*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="create*" propagation="REQUIRED"/>
+            <tx:method name="insert*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="merge*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="remove*" propagation="REQUIRED"/>
+            <tx:method name="put*" propagation="REQUIRED"/>
+            <tx:method name="auto*" propagation="REQUIRED"/>
+            <tx:method name="*" propagation="REQUIRED" rollback-for="Throwable"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config expose-proxy="true">
+        <!-- 只对业务逻辑层实施事务 -->
+        <aop:pointcut id="txPointcut" expression="execution(* com.company..service..*.*(..))"/>
+        <!-- Advisor定义，切入点和通知分别为txPointcut、txAdvice -->
+        <aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice" order="300"/>
+    </aop:config>
+
+    <!-- 下面配置和上面的tx:advice、aop:config使用其中一种即可  -->
+    <!--<tx:annotation-driven transaction-manager="transactionManager" />-->
+
+</beans> 

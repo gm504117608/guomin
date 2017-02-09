@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="SpringMVCModule:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="SpringMVCModule.war">
+      <element id="artifact" artifact-name="SpringMVCModule:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="common-services" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.9" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.8.9" />
+          <element id="library" level="module" name="Maven: com.alibaba:jconsole:1.8.0" module-name="common-services" />
+          <element id="library" level="module" name="Maven: com.alibaba:tools:1.8.0" module-name="common-services" />
+          <element id="library" level="project" name="Maven: com.google.auto.service:auto-service:1.0-rc1" />
+          <element id="library" level="project" name="Maven: com.google.guava:guava:16.0" />
+          <element id="library" level="project" name="Maven: com.squareup:javapoet:1.1.0" />
+          <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.16.6" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
