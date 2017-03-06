@@ -15,6 +15,8 @@ import com.company.learn.batchInsert.bridge.carRoad.road.SpeedWay;
  * 扩张车只需要继承AbstractCar
  * 将路和车之间的关系进行了分离
  *
+ * 桥接模式主要是分离了对象之间的关联，解耦
+ *
  * 讲解地址
  * http://blog.csdn.net/thinkinwm/article/details/8683616
  */

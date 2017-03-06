@@ -205,6 +205,12 @@
             <version>4.5.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+
         <!-- activemq 相关maven依赖 -->
         <!--<dependency>-->
             <!--<groupId>javax.jms</groupId>-->
@@ -274,11 +280,11 @@
             <!--<version>1.5.5</version>-->
         <!--</dependency>-->
 
-        <!--<dependency>-->
-            <!--<groupId>dom4j</groupId>-->
-            <!--<artifactId>dom4j</artifactId>-->
-            <!--<version>1.6.1</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
 
         <dependency>
             <groupId>jdom</groupId>
@@ -287,6 +293,14 @@
         </dependency>
 
         <!-- poi excel处理结束 -->
+
+        <!-- 汉字转拼音 处理开始 -->
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <!-- 汉字转拼音 处理结束 -->
 
     </dependencies>
 
