@@ -9,6 +9,7 @@ public class Test {
         System.setProperty("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
 
         IHello hello = (IHello) new DynaProxyHello().bind(new Hello(), new Operation());
+//        IHello hello = (IHello) new DynaProxyHello().bind(new Hello());
         hello.sayGoodBye("Dead");
         hello.sayHello("Dead");
 
@@ -17,9 +18,9 @@ public class Test {
 //        System.out.println("==================================");
 //        System.out.println(ClassLoader.getSystemClassLoader());
 
-//          ApplicationContext ctx= new ClassPathXmlApplicationContext(
+//        ApplicationContext ctx= new ClassPathXmlApplicationContext(
 //                "spring/ws-client.xml");
-//
-//          Hello cache = (Hello) ctx.getBean("cache");
+
+//        Hello cache = (Hello) ctx.getBean("cache");
     }
 }
